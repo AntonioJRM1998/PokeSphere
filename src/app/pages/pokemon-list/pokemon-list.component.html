@@ -1,1 +1,14 @@
-<p>pokemon-list works!</p>
+<div class="containerList w-full h-screen flex flex-col object-cover">
+  <div class="containerList__header">
+    <app-pokemon-header (name)="searchTerm.set($event)"></app-pokemon-header>
+  </div>
+  <div class="containerList__list">
+    @for (pokemon of displayedPokemons(); track $index) {
+    <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+    }
+  </div>
+  <!-- Elemento para detectar el scroll infinito -->
+  <div id="sentinel" class="h-10"></div>
+
+  <div class="loading">@if (loading()) { Cargando más Pokémon... }</div>
+</div>

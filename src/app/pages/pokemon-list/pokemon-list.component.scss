@@ -1,0 +1,13 @@
+.containerList {
+  background-image: url("../../../assets/image/background-poke.jpg");
+  background-size: cover;
+  background-position: center;
+
+  &__list {
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se distribuyan en varias líneas */
+    gap: 2rem 0; /* Equivalente a grid-row-gap: 2rem y grid-column-gap: 0rem */
+    justify-content: space-around; /* Asegura el espaciado entre elementos */
+  }
+}

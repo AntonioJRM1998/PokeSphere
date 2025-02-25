@@ -1,0 +1,115 @@
+.test {
+  height: 525px;
+  width: 360px;
+  background-color: #b8b8b8;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  transition: opacity 0.3s ease-in-out;
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.test:hover {
+  transform: scale(1.05);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+
+.imagen {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  height: 25%;
+}
+
+.pokemon {
+  display: flex;
+  justify-content: center;
+}
+
+.pokemonImg {
+  z-index: 999;
+}
+
+.testImagen {
+  position: absolute;
+}
+
+.abajo {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  height: inherit;
+  border-radius: 8px;
+  margin: 0.3rem;
+  padding: 0.5rem;
+  box-shadow: 1px -1px 8px -2px rgba(105, 105, 105, 0.94);
+}
+
+.tipos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.tiposTip {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem;
+  background-color: #666666;
+  border-radius: 12px;
+  color: white;
+  padding: 0.2rem;
+  font-size: 12px;
+  font-weight: 400;
+  width: 15%;
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #b8b8b8;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.descripcion {
+  display: flex;
+  color: #000000;
+  font-size: 15px;
+  margin: 0.5rem;
+}
+
+.btn-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  color: inherit; /* Usa el color del texto heredado */
+  font-size: 1rem; /* Ajusta el tamaño del texto */
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s ease-in-out;
+}
+
+.btn-text:hover {
+  color: #888; /* Cambia el color al pasar el mouse */
+}
+
+.btn-text:focus {
+  outline: none; /* Elimina el contorno al hacer clic */
+}
