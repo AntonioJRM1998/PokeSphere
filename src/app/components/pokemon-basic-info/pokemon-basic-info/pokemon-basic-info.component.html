@@ -1,0 +1,58 @@
+<div class="basicDetails">
+  <div class="basicDetails__pokemonView">
+    <div class="basicDetails__pokemonView--name">
+      <span>ID:#{{ pokemonData().id }}</span>
+      <span>{{ pokemonData().name }}</span>
+      <span class="material-symbols-outlined"> visibility </span>
+    </div>
+    <div class="separator"></div>
+    <div class="basicDetails__pokemonView--img">
+      <img [src]="pokemonData().image" alt="" />
+    </div>
+    <div class="separator"></div>
+    <div class="basicDetails__pokemonView--description">
+      <div class="flex flex-col items-center">
+        <p class="basicDetails__pokemonView--description--title">
+          Pokédex data
+        </p>
+      </div>
+      <div class="mb-2">
+        <table class="basicDetails__pokemonView--description--table">
+          <tbody>
+            <tr>
+              <th>National №:</th>
+              <td>{{ pokemonData().id }}</td>
+            </tr>
+            <tr>
+              <th>Type:</th>
+              <td class="flex">
+                @for (type of pokemonData().types; track $index) {
+                <div [ngClass]="['type-label w-16', type.type.name]">
+                  {{ type.type.name }}
+                </div>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th>Species:</th>
+              <td>Seed Pokémon</td>
+            </tr>
+            <tr>
+              <th>Height:</th>
+              <td>{{ pokemonData().height }}</td>
+            </tr>
+            <tr>
+              <th>Weight:</th>
+              <td>{{ pokemonData().weight }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="basicDetails__movements">
+    <div class="basicDetails__movements--title">
+      <span>Movements</span>
+    </div>
+  </div>
+</div>

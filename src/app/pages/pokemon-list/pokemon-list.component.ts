@@ -1,9 +1,20 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { PokemonHeaderComponent } from '../../components/pokemon-header/pokemon-header/pokemon-header.component';
 import { PokemonCardComponent } from '../../components/pokemon-card/pokemon-card/pokemon-card.component';
 import { Pokemon, PokemonList } from '../../model/pokemon.model';
-import { PokemonServiceService } from '../../services/pokemon-service.service';
-import { catchError, finalize, of } from 'rxjs';
+import { PokemonService } from '../../services/pokemon-service.service';
+import {
+  catchError,
+  finalize,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
+import { isEmpty, isNil } from 'lodash';
+import { PokemonDetail } from '../../model/pokemon-detail.model';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -14,12 +25,11 @@ import { catchError, finalize, of } from 'rxjs';
 })
 export class PokemonListComponent implements OnInit {
   public pokemonList = signal<PokemonList>({} as PokemonList);
-  public displayedPokemons = signal<Pokemon[]>([]);
-  public searchTerm = signal('');
-  public loading = signal(false);
+  public displayedPokemons = signal<PokemonDetail[]>([]);
+  public loading = signal(true);
   public error = signal(false);
-  private pageSize = 100;
-  private pokemonService: PokemonServiceService = inject(PokemonServiceService);
+  private infiniteScrollActive: boolean = true;
+  private pokemonService: PokemonService = inject(PokemonService);
   private observer!: IntersectionObserver;
 
   constructor() {}
@@ -32,6 +42,7 @@ export class PokemonListComponent implements OnInit {
   public getAllPokemons(url?: string): void {
     this.loading.set(true);
     this.error.set(false);
+
     this.pokemonService
       .getPokemonList(url)
       .pipe(
@@ -40,18 +51,38 @@ export class PokemonListComponent implements OnInit {
           this.error.set(true);
           return of({ results: [] });
         }),
-        finalize(() => this.loading.set(false))
+        switchMap((response) => {
+          this.pokemonList.set(response);
+          const pokemonDetails$: any = response?.results?.map((pokemon) =>
+            this.pokemonService.getPokemonByName(pokemon.name).pipe(
+              map((details) => this.mapResponseToPokemon(details, response)),
+              catchError(() => of(null)) // Si falla, no rompe la carga
+            )
+          );
+
+          return forkJoin(pokemonDetails$);
+        }),
+        finalize(() => {
+          this.loading.set(false);
+        })
       )
-      .subscribe((response) => {
-        this.pokemonList.set(response);
+      .subscribe((detailedPokemons: any) => {
+        this.pokemonList().results = detailedPokemons.filter(
+          (p: any) => p !== null
+        );
+        this.loadMorePokemons();
       });
   }
 
-  setupInfiniteScroll(): void {
+  public setupInfiniteScroll(): void {
     this.observer = new IntersectionObserver((entries) => {
       const target = entries[0];
-      if (target.isIntersecting && !this.loading()) {
-        this.loadMorePokemons();
+      if (
+        target.isIntersecting &&
+        !this.loading() &&
+        this.infiniteScrollActive
+      ) {
+        this.getAllPokemons(this.pokemonList()?.next);
       }
     });
 
@@ -61,18 +92,33 @@ export class PokemonListComponent implements OnInit {
     }
   }
 
-  loadMorePokemons(): void {
+  public onSearch(event: string): void {
+    if (isEmpty(event)) {
+      this.infiniteScrollActive = true;
+      this.displayedPokemons.set([]);
+      this.getAllPokemons();
+      return;
+    }
+
+    this.infiniteScrollActive = false;
+    const filteredPokemons =
+      this.displayedPokemons().filter((pokemon) =>
+        pokemon.name.includes(event)
+      ) ?? [];
+    this.displayedPokemons.set(filteredPokemons);
+  }
+
+  private loadMorePokemons(): void {
     const currentPokemons = this.displayedPokemons();
-    const allPokemons = this.pokemonList()?.results ?? [];
+    const newPokemons = this.pokemonList()?.results ?? [];
+    const finalArray = [...currentPokemons, ...newPokemons];
+    this.displayedPokemons.set(finalArray);
+  }
 
-    if (currentPokemons.length >= allPokemons.length) return;
-
-    const newPokemons = allPokemons.slice(
-      currentPokemons.length,
-      currentPokemons.length + this.pageSize
-    );
-
-    this.displayedPokemons.set([...currentPokemons, ...newPokemons]);
-    this.getAllPokemons(this.pokemonList()?.next);
+  private mapResponseToPokemon(pokemon: any, response: PokemonList): Pokemon {
+    return {
+      ...pokemon,
+      image: pokemon.sprites.other['official-artwork'].front_default,
+    };
   }
 }

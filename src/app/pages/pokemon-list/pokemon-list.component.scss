@@ -2,12 +2,65 @@
   background-image: url("../../../assets/image/background-poke.jpg");
   background-size: cover;
   background-position: center;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
 
   &__list {
-    padding: 2rem;
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se distribuyan en varias líneas */
-    gap: 2rem 0; /* Equivalente a grid-row-gap: 2rem y grid-column-gap: 0rem */
-    justify-content: space-around; /* Asegura el espaciado entre elementos */
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(clamp(22.5rem, 22.5rem, 22.5rem), 1fr)
+    );
+    animation: fadeIn 1s ease-in-out;
+    gap: 1rem;
+    max-width: 100%;
+    width: max-content;
+    justify-content: center; /* Centra el contenido */
+
+    @media (max-width: 768px) {
+      padding: 0;
+    }
+  }
+
+  &__spinner {
+    position: absolute;
+    width: 98px;
+    height: 98px;
+    animation: rotate 1s linear infinite;
+    top: 48%;
+  }
+}
+
+.test {
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
   }
 }

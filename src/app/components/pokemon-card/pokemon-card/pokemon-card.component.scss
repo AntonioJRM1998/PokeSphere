@@ -1,52 +1,55 @@
-.test {
-  height: 525px;
-  width: 360px;
-  background-color: #b8b8b8;
+.card {
+  width: 22.5rem;
+  height: 33rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  transition: opacity 0.3s ease-in-out;
-  transition: transform 0.3s ease;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  @media (max-width: 360px) {
+    justify-content: center;
+  }
 }
 
-.test:hover {
-  transform: scale(1.05);
-}
-
-.title {
+.card-header {
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  color: white;
   font-size: 1.5rem;
   text-transform: uppercase;
   margin-top: 1rem;
 }
 
-.imagen {
+.card-image-wrapper {
   display: flex;
   justify-content: flex-end;
+  image-rendering: pixelated;
   padding: 1rem;
   height: 25%;
 }
 
-.pokemon {
+.pokeball-image {
+  position: absolute;
+}
+
+.pokemon-wrapper {
   display: flex;
   justify-content: center;
 }
 
-.pokemonImg {
+.pokemon-image {
   z-index: 999;
+  width: 60%;
 }
 
-.testImagen {
-  position: absolute;
-}
-
-.abajo {
+.card-content {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
@@ -57,27 +60,19 @@
   box-shadow: 1px -1px 8px -2px rgba(105, 105, 105, 0.94);
 }
 
-.tipos {
+.pokemon-types {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+  text-transform: capitalize;
 }
 
-.tiposTip {
-  display: flex;
-  justify-content: center;
-  margin: 0.5rem;
-  background-color: #666666;
-  border-radius: 12px;
-  color: white;
-  padding: 0.2rem;
-  font-size: 12px;
-  font-weight: 400;
+.type-label {
   width: 15%;
 }
 
-.about {
+.section-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,30 +81,41 @@
   font-size: 20px;
 }
 
-.descripcion {
+.pokemon-description {
   display: flex;
-  color: #000000;
-  font-size: 15px;
-  margin: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.btn-text {
+.pokemon-sprite {
+  max-width: 100%; /* Hace que las imágenes se reduzcan si son demasiado grandes */
+  width: 80px;
+  height: 80px;
+}
+
+.show-more {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: none;
-  border: none;
-  color: inherit; /* Usa el color del texto heredado */
-  font-size: 1rem; /* Ajusta el tamaño del texto */
-  cursor: pointer;
-  padding: 5px 10px;
-  transition: color 0.3s ease-in-out;
-}
 
-.btn-text:hover {
-  color: #888; /* Cambia el color al pasar el mouse */
-}
+  button {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: color 0.3s ease-in-out;
 
-.btn-text:focus {
-  outline: none; /* Elimina el contorno al hacer clic */
+    &:hover {
+      color: #888;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
 }

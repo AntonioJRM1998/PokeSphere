@@ -1,1 +1,18 @@
-<p>pokemon-detail works!</p>
+<div class="detail w-full h-screen flex flex-col object-cover">
+  <div class="detail__buttonBack" (click)="goBack()">
+    <div class="detail__buttonBack--container">
+      <span class="material-symbols-outlined"> arrow_back </span>
+      <span>Go Back</span>
+    </div>
+  </div>
+  <div class="detail__body">
+    <div class="detail__body--card">
+      @if (pokemonDetails()) {
+      <app-pokemon-basic-info
+        [pokemonData]="pokemonDetails()"
+      ></app-pokemon-basic-info>
+      }
+    </div>
+    <div class="detail__body--container"></div>
+  </div>
+</div>

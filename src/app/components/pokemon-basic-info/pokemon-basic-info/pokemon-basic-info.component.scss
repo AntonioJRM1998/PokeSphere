@@ -1,0 +1,78 @@
+.basicDetails {
+  &__pokemonView {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.803);
+    border-radius: 25px;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.55);
+
+    &--img {
+      display: flex;
+      justify-content: center;
+    }
+
+    &--name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.5rem 0 0.5rem;
+      text-transform: capitalize;
+      font-size: x-large;
+      font-weight: bold;
+    }
+
+    &--description {
+      text-transform: capitalize;
+      padding: 0.5rem;
+
+      &--title {
+        font-size: x-large;
+        font-weight: bold;
+      }
+
+      &--table {
+        width: 100%;
+        color: #737373;
+        font-size: 0.875rem;
+        font-weight: normal;
+        text-align: left;
+        font-family: "Fira Sans", "Trebuchet MS", Ubuntu, Helvetica,
+          Arial sans-serif;
+      }
+
+      tr {
+        white-space: nowrap;
+        border-bottom: 2px dotted gray;
+      }
+
+      td {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &__movements {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.803);
+    border-radius: 25px;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.55);
+    height: 200px;
+    margin-top: 1rem;
+
+    &--title {
+      text-transform: capitalize;
+      padding: 0.5rem;
+      font-size: x-large;
+      font-weight: bold;
+    }
+  }
+}
+
+.separator {
+  border-bottom: 2px dashed gray;
+  margin: 0.5rem;
+}
+
+:host {
+  display: block;
+  width: 100%;
+}

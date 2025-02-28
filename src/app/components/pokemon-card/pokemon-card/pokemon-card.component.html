@@ -1,37 +1,49 @@
-<div class="test">
-  <div class="title">
-    <span>{{ pokemon().name }}</span>
+<div class="card" (click)="goToPokemonDetails()">
+  <div class="card-header">
+    <span class="pokemon-name">{{ pokemon().name }}</span>
   </div>
-  <div class="imagen">
+  <div class="card-image-wrapper">
     <img
       src="../../../../assets/image/pokeball.png"
-      alt=""
-      class="testImagen"
+      alt="Pokeball"
+      class="pokeball-image"
     />
   </div>
-  <div class="pokemon">
+  <div class="pokemon-wrapper">
     <img
-      class="pokemonImg"
-      src="../../../../assets/image/Silhouette.png"
-      alt=""
+      class="pokemon-image"
+      [src]="pokemon().image"
+      alt="Pokemon Silhouette"
     />
   </div>
-  <div class="abajo">
-    <div class="tipos">
-      <div class="tiposTip">Planta</div>
-      <div class="tiposTip">Veneno</div>
+  <div class="card-content">
+    <div class="pokemon-types">
+      @for (item of pokemon().types; track $index) {
+      <div [ngClass]="['type-label', item.type.name]">
+        {{ item.type.name }}
+      </div>
+      }
     </div>
-    <div class="about">
-      <span> About</span>
+    <div class="section-title">
+      <span>Sprites</span>
     </div>
-    <div class="descripcion">
-      <span>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc iaculis
-        eros vitae tellus condimentum maximus sit amet in eros.
-      </span>
-    </div>
-    <div class="btn-text">
-      <button>Show more</button>
+    <div class="pokemon-description">
+      <img
+        [src]="pokemon().sprites.front_default"
+        class="pokemon-sprite"
+        alt=""
+      />
+      <img
+        [src]="pokemon().sprites.back_default"
+        class="pokemon-sprite"
+        alt=""
+      />
+      <img
+        [src]="pokemon().sprites.front_shiny"
+        class="pokemon-sprite"
+        alt=""
+      />
+      <img [src]="pokemon().sprites.back_shiny" class="pokemon-sprite" alt="" />
     </div>
   </div>
 </div>
