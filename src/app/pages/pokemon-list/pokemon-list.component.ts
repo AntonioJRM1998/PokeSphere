@@ -31,6 +31,7 @@ export class PokemonListComponent implements OnInit {
   private infiniteScrollActive: boolean = true;
   private pokemonService: PokemonService = inject(PokemonService);
   private observer!: IntersectionObserver;
+  private allPokemonsLoad: PokemonDetail[] = []
 
   constructor() {}
 
@@ -102,7 +103,7 @@ export class PokemonListComponent implements OnInit {
 
     this.infiniteScrollActive = false;
     const filteredPokemons =
-      this.displayedPokemons().filter((pokemon) =>
+      this.allPokemonsLoad.filter((pokemon) =>
         pokemon.name.includes(event)
       ) ?? [];
     this.displayedPokemons.set(filteredPokemons);
@@ -112,6 +113,7 @@ export class PokemonListComponent implements OnInit {
     const currentPokemons = this.displayedPokemons();
     const newPokemons = this.pokemonList()?.results ?? [];
     const finalArray = [...currentPokemons, ...newPokemons];
+    this.allPokemonsLoad = finalArray
     this.displayedPokemons.set(finalArray);
   }
 

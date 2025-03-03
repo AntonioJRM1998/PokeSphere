@@ -1,0 +1,30 @@
+<div class="resp-scroll">
+  <div class="title">Stats</div>
+  <table class="vitals-table">
+    <tbody>
+      @for (stat of stats(); track $index) {
+      <tr>
+        <th class="nameStat">{{ stat.stat.name }}</th>
+        <td class="cell-num">{{ stat.base_stat }}</td>
+        <td class="cell-barchart">
+          <progress
+            class="progress-bar"
+            [value]="stat.base_stat"
+            max="255"
+          ></progress>
+        </td>
+        <td class="cell-num">255</td>
+      </tr>
+      }
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <th>Total</th>
+        <td class="cell-num cell-total">{{ totalStats() }}</td>
+        <th class="cell-barchart"></th>
+        <th>Max</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

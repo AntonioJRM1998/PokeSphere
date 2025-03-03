@@ -4,4 +4,5 @@ export const AppConfig = {
     getPokemon: '/pokemon',
     getTrainer: '/trainer',
   },
+  apiCardBaseUrl: 'https://api.pokemontcg.io/v2/cards'
 };

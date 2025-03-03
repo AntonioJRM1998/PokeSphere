@@ -3,7 +3,12 @@
     <div class="basicDetails__pokemonView--name">
       <span>ID:#{{ pokemonData().id }}</span>
       <span>{{ pokemonData().name }}</span>
-      <span class="material-symbols-outlined"> visibility </span>
+      <span
+        class="material-symbols-outlined cursor-pointed"
+        (click)="showPokemonCard()"
+      >
+        visibility
+      </span>
     </div>
     <div class="separator"></div>
     <div class="basicDetails__pokemonView--img">
@@ -34,25 +39,16 @@
               </td>
             </tr>
             <tr>
-              <th>Species:</th>
-              <td>Seed Pokémon</td>
-            </tr>
-            <tr>
               <th>Height:</th>
-              <td>{{ pokemonData().height }}</td>
+              <td>{{ pokemonData().height }} m</td>
             </tr>
             <tr>
               <th>Weight:</th>
-              <td>{{ pokemonData().weight }}</td>
+              <td>{{ pokemonData().weight }} kg</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
-  <div class="basicDetails__movements">
-    <div class="basicDetails__movements--title">
-      <span>Movements</span>
     </div>
   </div>
 </div>

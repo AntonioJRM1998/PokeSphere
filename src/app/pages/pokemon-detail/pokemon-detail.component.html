@@ -1,4 +1,14 @@
 <div class="detail w-full h-screen flex flex-col object-cover">
+  @if (showCard()) {
+  <div class="cardImage" (touchstart)="onTouch()">
+    <img
+      [src]="cardUrlImage()"
+      alt=""
+      class="cardImage__img"
+      (document:keydown)="hideCardWhenPressEscape($event)"
+    />
+  </div>
+  }
   <div class="detail__buttonBack" (click)="goBack()">
     <div class="detail__buttonBack--container">
       <span class="material-symbols-outlined"> arrow_back </span>
@@ -10,9 +20,17 @@
       @if (pokemonDetails()) {
       <app-pokemon-basic-info
         [pokemonData]="pokemonDetails()"
+        (showCard)="showPokemonCard($event)"
       ></app-pokemon-basic-info>
       }
     </div>
-    <div class="detail__body--container"></div>
+    <div class="detail__body--container">
+      <div class="detail__body--container--stats">
+        <app-pokemon-stats
+          [stats]="pokemonDetails()?.stats"
+        ></app-pokemon-stats>
+      </div>
+      <div class="detail__body--container--movements"></div>
+    </div>
   </div>
 </div>

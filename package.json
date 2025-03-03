@@ -2,7 +2,7 @@
   "name": "poke-sphere",
   "version": "0.0.1",
   "scripts": {
-    "ng": "ng",
+    "ng": "ng g c components/pokemon-stats/pokemon-stats",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
