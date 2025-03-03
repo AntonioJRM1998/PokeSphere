@@ -8,7 +8,7 @@ import { Component, input, InputSignal, OnInit, signal } from '@angular/core';
   styleUrl: './pokemon-stats.component.scss',
 })
 export class PokemonStatsComponent implements OnInit {
-  stats: InputSignal<any> = input();
+  public stats: InputSignal<any> = input();
   public totalStats = signal<number>(0);
   constructor() {}
   ngOnInit(): void {

@@ -10,6 +10,7 @@
   &__body {
     display: flex;
     flex-direction: row;
+    align-items: stretch;
     width: 100%;
 
     @media (max-width: 968px) {
@@ -18,25 +19,27 @@
     }
 
     &--card {
-      margin: 2rem;
       display: flex;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(6px);
-      border-radius: 8px;
       padding: 1rem;
+
+      @media (max-width: 968px) {
+        padding: 0.5rem;
+      }
     }
 
     &--container {
       display: flex;
       flex-direction: column;
-      margin: 2rem;
-      width: 70%;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(6px);
-      border-radius: 8px;
+      padding: 1rem;
+      width: 100%;
+
+      @media (max-width: 968px) {
+        width: auto;
+        padding: 0.5rem;
+      }
 
       &--stats {
-        margin: 1rem 0 1rem 0;
+        margin: 0 0 1rem 0;
       }
     }
   }

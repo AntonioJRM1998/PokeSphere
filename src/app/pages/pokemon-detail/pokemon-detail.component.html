@@ -1,5 +1,5 @@
 <div class="detail w-full h-screen flex flex-col object-cover">
-  @if (showCard()) {
+  @if (pokemonDetails() && allCardsByName().length > 0) { @if (showCard()) {
   <div class="cardImage" (touchstart)="onTouch()">
     <img
       [src]="cardUrlImage()"
@@ -11,28 +11,42 @@
   }
   <div class="detail__buttonBack" (click)="goBack()">
     <div class="detail__buttonBack--container">
-      <span class="material-symbols-outlined"> arrow_back </span>
+      <mat-icon>arrow_back</mat-icon>
       <span>Go Back</span>
     </div>
   </div>
   <div class="detail__body">
     <div class="detail__body--card">
-      @if (pokemonDetails()) {
       <app-pokemon-basic-info
         [pokemonData]="pokemonDetails()"
         (showCard)="showPokemonCard($event)"
       ></app-pokemon-basic-info>
-      }
     </div>
     <div class="detail__body--container">
       <div class="detail__body--container--stats">
+        @if (pokemonDetails()?.stats?.length ?? 0 > 0) {
         <app-pokemon-stats
           [stats]="pokemonDetails()?.stats"
         ></app-pokemon-stats>
+        }
       </div>
       <div class="detail__body--container--movements">
-        <app-pokemon-movements></app-pokemon-movements>
+        @if (allCardsByName().length > 0) {
+        <app-pokemon-movements
+          [allCards]="allCardsByName()"
+          (sendUrlCard)="showTableCard($event)"
+        ></app-pokemon-movements>
+        }
       </div>
     </div>
   </div>
+  } @else {
+  <div class="flex w-full h-inherit flex justify-center">
+    <img
+      src="./../../../assets/image/pokeIcon.png"
+      alt=""
+      class="absolute w-[98px] h-[98px] animate-spin top-[48%]"
+    />
+  </div>
+  }
 </div>
