@@ -7,11 +7,16 @@ import { PokemonDetail } from '../../model/pokemon-detail.model';
 import { PokemonBasicInfoComponent } from '../../components/pokemon-basic-info/pokemon-basic-info/pokemon-basic-info.component';
 import { PokemonCardService } from '../../services/pokemon-card-service.service';
 import { PokemonStatsComponent } from '../../components/pokemon-stats/pokemon-stats/pokemon-stats.component';
+import { PokemonMovementsComponent } from '../../components/pokemon-movements/pokemon-movements/pokemon-movements.component';
 
 @Component({
   selector: 'app-pokemon-detail',
   standalone: true,
-  imports: [PokemonBasicInfoComponent, PokemonStatsComponent],
+  imports: [
+    PokemonBasicInfoComponent,
+    PokemonStatsComponent,
+    PokemonMovementsComponent,
+  ],
   templateUrl: './pokemon-detail.component.html',
   styleUrl: './pokemon-detail.component.scss',
 })
