@@ -2,17 +2,16 @@ import {
   Component,
   input,
   InputSignal,
-  OnInit,
   output,
   ViewChild,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { PokemonCard } from '../../../model/pokemon-cards.model';
+import { PokemonCard } from 'src/app/model/pokemon-cards.model';
 
 @Component({
-  selector: 'app-pokemon-movements',
+  selector: 'app-pokemon-cards',
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, MatIconModule],
   templateUrl: './pokemon-cards.component.html',

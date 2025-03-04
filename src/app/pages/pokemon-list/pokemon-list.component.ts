@@ -1,25 +1,17 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
-import { PokemonHeaderComponent } from '../../components/pokemon-header/pokemon-header/pokemon-header.component';
-import { PokemonCardComponent } from '../../components/pokemon-card/pokemon-card/pokemon-card.component';
-import { Pokemon, PokemonList } from '../../model/pokemon.model';
-import { PokemonService } from '../../services/pokemon-service.service';
-import {
-  catchError,
-  finalize,
-  forkJoin,
-  map,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
-import { isEmpty, isNil } from 'lodash';
-import { PokemonDetail } from '../../model/pokemon-detail.model';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { catchError, finalize, forkJoin, map, of, switchMap } from 'rxjs';
+import { isEmpty } from 'lodash';
+import { EmptyStateComponent } from '@components/empty-state/empty-state/empty-state.component';
+import { PokemonCardComponent } from '@components/pokemon-card/pokemon-card/pokemon-card.component';
+import { PokemonHeaderComponent } from '@components/pokemon-header/pokemon-header/pokemon-header.component';
+import { Pokemon, PokemonList } from 'src/app/model/pokemon.model';
+import { PokemonService } from '@services/pokemon-service.service';
+import { PokemonDetail } from 'src/app/model/pokemon-detail.model';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [PokemonHeaderComponent, PokemonCardComponent],
+  imports: [PokemonHeaderComponent, PokemonCardComponent, EmptyStateComponent],
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.scss',
 })
@@ -28,10 +20,11 @@ export class PokemonListComponent implements OnInit {
   public displayedPokemons = signal<PokemonDetail[]>([]);
   public loading = signal(true);
   public error = signal(false);
+
   private infiniteScrollActive: boolean = true;
   private pokemonService: PokemonService = inject(PokemonService);
   private observer!: IntersectionObserver;
-  private allPokemonsLoad: PokemonDetail[] = []
+  private allPokemonsLoad: PokemonDetail[] = [];
 
   constructor() {}
 
@@ -48,7 +41,6 @@ export class PokemonListComponent implements OnInit {
       .getPokemonList(url)
       .pipe(
         catchError((error) => {
-          console.error('Error fetching pokemon list', error);
           this.error.set(true);
           return of({ results: [] });
         }),
@@ -57,7 +49,7 @@ export class PokemonListComponent implements OnInit {
           const pokemonDetails$: any = response?.results?.map((pokemon) =>
             this.pokemonService.getPokemonByName(pokemon.name).pipe(
               map((details) => this.mapResponseToPokemon(details, response)),
-              catchError(() => of(null)) // Si falla, no rompe la carga
+              catchError(() => of(null))
             )
           );
 
@@ -96,16 +88,15 @@ export class PokemonListComponent implements OnInit {
   public onSearch(event: string): void {
     if (isEmpty(event)) {
       this.infiniteScrollActive = true;
-      this.displayedPokemons.set([]);
-      this.getAllPokemons();
+      this.displayedPokemons.set([...this.allPokemonsLoad]);
       return;
     }
 
     this.infiniteScrollActive = false;
     const filteredPokemons =
-      this.allPokemonsLoad.filter((pokemon) =>
-        pokemon.name.includes(event)
-      ) ?? [];
+      this.allPokemonsLoad.filter((pokemon) => pokemon.name.includes(event)) ??
+      [];
+
     this.displayedPokemons.set(filteredPokemons);
   }
 
@@ -113,7 +104,7 @@ export class PokemonListComponent implements OnInit {
     const currentPokemons = this.displayedPokemons();
     const newPokemons = this.pokemonList()?.results ?? [];
     const finalArray = [...currentPokemons, ...newPokemons];
-    this.allPokemonsLoad = finalArray
+    this.allPokemonsLoad = finalArray;
     this.displayedPokemons.set(finalArray);
   }
 

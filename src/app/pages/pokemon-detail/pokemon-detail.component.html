@@ -1,5 +1,6 @@
 <div class="detail w-full h-screen flex flex-col object-cover">
-  @if (pokemonDetails() && allCardsByName().length > 0) { @if (showCard()) {
+  @if (pokemonDetails() && allCardsByName().data.length > 0 && !isError()) { @if
+  (showCard()) {
   <div class="cardImage" (touchstart)="onTouch()">
     <img
       [src]="cardUrlImage()"
@@ -31,22 +32,23 @@
         }
       </div>
       <div class="detail__body--container--movements">
-        @if (allCardsByName().length > 0) {
-        <app-pokemon-movements
-          [allCards]="allCardsByName()"
+        @if (allCardsByName().data.length > 0) {
+        <app-pokemon-cards
+          [allCards]="allCardsByName().data"
           (sendUrlCard)="showTableCard($event)"
-        ></app-pokemon-movements>
+        ></app-pokemon-cards>
         }
       </div>
     </div>
   </div>
   } @else {
-  <div class="flex w-full h-inherit flex justify-center">
-    <img
-      src="./../../../assets/image/pokeIcon.png"
-      alt=""
-      class="absolute w-[98px] h-[98px] animate-spin top-[48%]"
-    />
+  <div
+    class="flex items-center justify-center w-full h-full absolute top-0 left-0"
+  >
+    <app-empty-state
+      [isError]="isError()"
+      [isLoading]="isLoading()"
+    ></app-empty-state>
   </div>
   }
 </div>

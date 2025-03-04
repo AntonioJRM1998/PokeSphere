@@ -1,4 +1,4 @@
-import { Component, effect, OnInit, output, signal } from '@angular/core';
+import { Component, input, InputSignal, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { isNil } from 'lodash';
 
@@ -10,7 +10,8 @@ import { isNil } from 'lodash';
   styleUrl: './pokemon-header.component.scss',
 })
 export class PokemonHeaderComponent implements OnInit {
-  name = output<string>();
+  public name = output<string>();
+  public isLoading: InputSignal<boolean> = input(false);
   searchForm = new FormGroup({
     search: new FormControl(''),
   });

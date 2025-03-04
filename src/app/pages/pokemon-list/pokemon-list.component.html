@@ -1,23 +1,29 @@
 <div class="containerList w-full h-screen flex flex-col object-cover">
+  @if (!error()) {
   <div class="containerList__header">
-    @if (!loading()) {
-    <app-pokemon-header (name)="onSearch($event)"></app-pokemon-header>
-    } @else {}
+    <app-pokemon-header
+      (name)="onSearch($event)"
+      [isLoading]="loading()"
+    ></app-pokemon-header>
   </div>
-  <div class="test" [@fadeSlide]>
-    <div class="containerList__list">
+  <div class="containerList__list" [@fadeSlide]>
+    <div class="containerList__list--pokemons">
       @for (pokemon of displayedPokemons(); track $index) {
       <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
       }
     </div>
-    @if (loading()) {
-    <img
-      src="./../../../assets/image/pokeIcon.png"
-      alt=""
-      class="containerList__spinner"
-    />
-    }
   </div>
-  <!-- Elemento para detectar el scroll infinito -->
+  }
   <div id="sentinel" class="h-10"></div>
+
+  @if (error() || loading()) {
+  <div
+    class="flex items-center justify-center w-full h-full absolute top-0 left-0"
+  >
+    <app-empty-state
+      [isError]="error()"
+      [isLoading]="loading()"
+    ></app-empty-state>
+  </div>
+  }
 </div>

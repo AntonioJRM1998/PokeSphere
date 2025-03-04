@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { get, isEmpty, isNil } from 'lodash';
-import { catchError, EMPTY, of } from 'rxjs';
+import { catchError, finalize, forkJoin, of } from 'rxjs';
 
 import { MatIconModule } from '@angular/material/icon';
 import { PokemonMovementsComponent } from '@components/pokemon-cards/pokemon-cards/pokemon-cards.component';
@@ -9,8 +9,9 @@ import { PokemonBasicInfoComponent } from '@components/pokemon-basic-info/pokemo
 import { PokemonStatsComponent } from '@components/pokemon-stats/pokemon-stats/pokemon-stats.component';
 import { PokemonCardService } from '@services/pokemon-card-service.service';
 import { PokemonService } from '@services/pokemon-service.service';
-import { PokemonCard } from 'src/app/model/pokemon-cards.model';
+import { PokemonAllCards } from 'src/app/model/pokemon-cards.model';
 import { PokemonDetail } from 'src/app/model/pokemon-detail.model';
+import { EmptyStateComponent } from '@components/empty-state/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -20,16 +21,19 @@ import { PokemonDetail } from 'src/app/model/pokemon-detail.model';
     PokemonStatsComponent,
     PokemonMovementsComponent,
     MatIconModule,
+    EmptyStateComponent,
   ],
   templateUrl: './pokemon-detail.component.html',
   styleUrl: './pokemon-detail.component.scss',
 })
 export class PokemonDetailComponent implements OnInit {
   public pokemonDetails = signal<PokemonDetail | undefined>(undefined);
+  public allCardsByName = signal<PokemonAllCards>({} as PokemonAllCards);
   public name = this.activedRoute.snapshot.params['name'];
   public cardUrlImage = signal<string | undefined>(undefined);
   public showCard = signal<boolean>(false);
-  public allCardsByName = signal<PokemonCard[]>([]);
+  public isLoading = signal<boolean>(false);
+  public isError = signal<boolean>(false);
 
   private pokemonService: PokemonService = inject(PokemonService);
   private pokemonCardService: PokemonCardService = inject(PokemonCardService);
@@ -38,7 +42,6 @@ export class PokemonDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPokemonDetails();
-    this.getPokemonCard();
   }
 
   goBack() {
@@ -46,42 +49,47 @@ export class PokemonDetailComponent implements OnInit {
   }
 
   getPokemonDetails(): void {
-    const name = this.activedRoute.snapshot.params['name'];
-    if (isNil(name) || isEmpty(name)) {
-      console.error('Invalid pokemon name');
+    this.isLoading.set(true);
+
+    if (isNil(this.name) || isEmpty(this.name)) {
+      this.isError.set(true);
       return;
     }
-    this.pokemonService
-      .getPokemonByName(name)
-      .pipe(
-        catchError((error) => {
-          console.error('Error fetching pokemon details', error);
-          return of([]);
-        })
-      )
-      .subscribe((response) => {
-        const formattedData = {
-          ...response,
-          image: response.sprites.other['official-artwork'].front_default,
-        };
-        this.pokemonDetails.set(formattedData);
-      });
-  }
 
-  public getPokemonCard() {
-    this.pokemonCardService
-      .getCardsByName(this.name)
+    const pokemonDetails$ = this.pokemonService
+      .getPokemonByName(this.name)
       .pipe(
         catchError((error) => {
-          console.error(error);
-          return EMPTY;
+          this.isError.set(true);
+          return of(null);
         })
-      )
-      .subscribe((response: any) => {
-        const url = response.data[0].images.large;
-        this.saveFirstCard = url;
-        this.allCardsByName.set(response.data);
-        this.cardUrlImage.set(url);
+      );
+
+    const pokemonCard$ = this.pokemonCardService.getCardsByName(this.name).pipe(
+      catchError((error) => {
+        this.isError.set(true);
+        return of({ data: [] });
+      })
+    );
+
+    forkJoin([pokemonDetails$, pokemonCard$])
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe(([pokemonResponse, cardResponse]) => {
+        if (pokemonResponse) {
+          const formattedData = {
+            ...pokemonResponse,
+            image:
+              pokemonResponse.sprites.other['official-artwork'].front_default,
+          };
+          this.pokemonDetails.set(formattedData);
+        }
+
+        if (cardResponse.data.length > 0) {
+          const url = cardResponse.data[0].images.large;
+          this.saveFirstCard = url;
+          this.allCardsByName.set(cardResponse);
+          this.cardUrlImage.set(url);
+        }
       });
   }
 

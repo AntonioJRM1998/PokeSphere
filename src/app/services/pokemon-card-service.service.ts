@@ -12,8 +12,8 @@ export class PokemonCardService {
 
   constructor(private readonly _httpClient: HttpClient) {}
 
-  public getCardsByName(name: string): Observable<PokemonAllCards[]> {
-    return this._httpClient.get<PokemonAllCards[]>(this.baseApiUrl, {
+  public getCardsByName(name: string): Observable<PokemonAllCards> {
+    return this._httpClient.get<PokemonAllCards>(this.baseApiUrl, {
       params: {
         q: `name:${name}`,
       },

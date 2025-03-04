@@ -1,13 +1,4 @@
-import {
-  Component,
-  input,
-  InputSignal,
-  OnInit,
-  output,
-  Output,
-  signal,
-} from '@angular/core';
-import { PokemonDetail } from '../../../model/pokemon-detail.model';
+import { Component, input, InputSignal, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({

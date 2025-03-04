@@ -1,5 +1,7 @@
 <form [formGroup]="searchForm">
-  <div class="flex items-center justify-between w-full h-16 px-2">
+  <div
+    class="flex items-center justify-between w-full h-16 px-2 fixed z-[999] bg-[#51515130]"
+  >
     <div class="flex items-center justify-center w-16 h-16 font-pokemon">
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg"
@@ -16,11 +18,6 @@
         formControlName="search"
       />
     </div>
-    <div class="header__language">
-      <select class="p-2 rounded-lg" name="language" id="language">
-        <option value="en">English</option>
-        <option value="es">Spanish</option>
-      </select>
-    </div>
+    <div class="header__language"></div>
   </div>
 </form>

@@ -9,11 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './pokemon-card.component.html',
   styleUrl: './pokemon-card.component.scss',
 })
-export class PokemonCardComponent implements OnInit {
+export class PokemonCardComponent {
   pokemon: InputSignal<any> = input();
   constructor(private router: Router, private activeRoute: ActivatedRoute) {}
-
-  ngOnInit(): void {}
 
   goToPokemonDetails() {
     const name = this.pokemon().name;

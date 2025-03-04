@@ -7,42 +7,26 @@
   scrollbar-width: none;
 
   &__list {
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(clamp(22.5rem, 22.5rem, 22.5rem), 1fr)
-    );
-    animation: fadeIn 1s ease-in-out;
-    gap: 1rem;
-    max-width: 100%;
-    width: max-content;
-    justify-content: center; /* Centra el contenido */
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
 
-    @media (max-width: 768px) {
-      padding: 0;
+    &--pokemons {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(clamp(22.5rem, 22.5rem, 22.5rem), 1fr)
+      );
+      animation: fadeIn 1s ease-in-out;
+      gap: 1rem;
+      max-width: 100%;
+      width: max-content;
+      justify-content: center;
+
+      @media (max-width: 768px) {
+        padding: 0;
+      }
     }
-  }
-
-  &__spinner {
-    position: absolute;
-    width: 98px;
-    height: 98px;
-    animation: rotate 1s linear infinite;
-    top: 48%;
-  }
-}
-
-.test {
-  display: flex;
-  justify-content: center;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }
 

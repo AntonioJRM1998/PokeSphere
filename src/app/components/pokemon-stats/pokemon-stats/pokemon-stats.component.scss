@@ -1,17 +1,16 @@
-/* Barra de progreso con bordes redondeados */
 .progress-bar {
   width: 90%;
-  border-radius: 25px; /* Bordes redondeados */
-  appearance: none; /* Elimina estilos predeterminados en algunos navegadores */
+  border-radius: 25px;
+  appearance: none;
 }
 
 .progress-bar::-webkit-progress-bar {
-  background-color: #f3f3f300; /* Color de fondo de la barra de progreso */
+  background-color: #f3f3f300;
   border-radius: 25px;
 }
 
 .progress-bar::-webkit-progress-value {
-  background-color: #4caf50; /* Color de la barra de progreso */
+  background-color: #4caf50;
   border-radius: 25px;
 }
 
